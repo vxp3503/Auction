@@ -1,3 +1,4 @@
+from unicodedata import category
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 import datetime
@@ -35,6 +36,33 @@ class Listing(models.Model):
     closed =models.BooleanField(default=False)
     winner = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     date = models.DateTimeField(default=datetime.datetime.now)
+
+    def serialize(self):
+        if self.winner is not None:
+            return {
+            "id":self.id,
+            "Owner":self.Owner.username,
+            "title": self.title,
+            "description": self.description,
+            "startbid":self.startbid,
+            "image": self.image,
+            "category":self.category,
+            "closed": self.closed,
+            "winner": self.winner.username,
+            "date": self.date
+        }
+        else:
+            return {
+            "id":self.id,
+            "Owner":self.Owner.username,
+            "title": self.title,
+            "description": self.description,
+            "startbid":self.startbid,
+            "image": self.image,
+            "category":self.category,
+            "closed": self.closed,
+            "date": self.date
+        }
 
     def __str__(self):
         return self.title

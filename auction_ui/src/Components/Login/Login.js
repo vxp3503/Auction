@@ -1,10 +1,17 @@
 import React from 'react'
 import axios from 'axios'
-import { Container, Form, Col, Row, Button } from 'react-bootstrap'
+import { Container, Form, Col, Row, Button, Alert } from 'react-bootstrap'
 import profile from '../../images/profile.png'
-import Logi from '../../images/Login.svg'
 import './Login.css'
-const Login = () => {
+import { useNavigate } from 'react-router-dom'
+
+const Login = (props) => {
+    let navigate=useNavigate();
+
+
+    function register(){
+        navigate(`/register`)
+    }
     function login() {
         var bodyFormData = new FormData();
         bodyFormData.append('username', 'vhii')
@@ -29,24 +36,29 @@ const Login = () => {
     }
     return (
         <Col lg={4} md={6} sm={12} className="text-center mt-5 p-3">
-        <img className="icon-img" src={profile} alt="icon" />
-        <Form>
-            <Form.Group className="mb-3" controlId="formBasicEmail">
-                <Form.Control type="email" placeholder="Enter email" />
-            </Form.Group>
+            <img className="icon-img" src={profile} alt="icon" />
+            <Form>
+                <Form.Group className="mb-3" controlId="formBasicEmail">
+                    <Form.Control type="email" placeholder="Enter email" />
+                </Form.Group>
 
 
-            <Form.Group className="mb-3" controlId="formBasicPassword">
-                <Form.Control type="password" placeholder="Password" />
-            </Form.Group>
+                <Form.Group className="mb-3" controlId="formBasicPassword">
+                    <Form.Control type="password" placeholder="Password" />
+                </Form.Group>
 
-            <Button variant="primary col-12" type="submit">Login</Button>
-            <div className='Register'>
-                Don't have account
-                <Button variant="primary col-12" type="submit">Register</Button>
-            </div>
-        </Form>
-    </Col>
+                {props.iscreated?<Alert key="success" variant="success">
+                    Account created Successfully
+                </Alert>:""}
+
+
+                <Button variant="primary col-12" type="submit">Login</Button>
+                <div className='Register'>
+                    Don't have account
+                    <Button variant="primary col-12" type="submit" onClick={register}>Register</Button>
+                </div>
+            </Form>
+        </Col>
     )
 }
 

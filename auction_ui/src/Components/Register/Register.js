@@ -4,9 +4,12 @@ import { useState } from 'react'
 import { Container, Form, Col, Row, Button } from 'react-bootstrap'
 import profile from '../../images/profile.png'
 import './Register.css'
+import { useNavigate } from 'react-router-dom'
 
 const Register = () => {
 
+
+    let navigate=useNavigate()
     const [password, setPassword] = useState();
     const [confirmPassword, setConfirmPassword] = useState();
     const [username, setUsername] = useState();
@@ -53,6 +56,10 @@ const Register = () => {
     }
     const passwordChangeHandler = (event) => {
         setPassword(event.target.value);
+    }
+
+    const Already=()=>{
+        navigate(`/login`)
     }
 
 
@@ -121,6 +128,9 @@ const Register = () => {
 
                 <Button variant="primary col-12" disabled={(password!=confirmPassword)?true:false} type="submit" >Register</Button>
             </Form>
+            <br />
+            <br />
+            <Button variant="primary col-12" onClick={Already}>Already Account Login</Button>
         </Col>
     )
 }
