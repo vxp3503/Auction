@@ -59,7 +59,7 @@ const Register = () => {
     }
 
     const Already=()=>{
-        navigate(`/login`)
+        navigate(`/login`,{"id":1})
     }
 
 
@@ -94,7 +94,7 @@ const Register = () => {
 
 
     return (
-        <Col lg={4} md={6} sm={12} className="text-center  p-3">
+        <Col lg={4} md={6} sm={12} className="text-center p-3">
             <img className="icon-img" src={profile} alt="icon" />
             <Form>
 
@@ -128,7 +128,6 @@ const Register = () => {
 
                 <Button variant="primary col-12" disabled={(password!=confirmPassword)?true:false} type="submit" >Register</Button>
             </Form>
-            <br />
             <br />
             <Button variant="primary col-12" onClick={Already}>Already Account Login</Button>
         </Col>

@@ -10,7 +10,6 @@ from .forms import ListingForm
 import json
 # Create your views here.
 def index(request):
-    if(User.objects.filter(username=request.user.username).exists()):
         l=Listing.objects.all()
         amount=[]
         for item in l:
@@ -22,14 +21,9 @@ def index(request):
         List= list(zip([listing.serialize() for listing in l],amount))
         data={
             "present": 1,
-            "List":[listing.serialize() for listing in l]
+            "List":List
         }
         return JsonResponse(data)
-    else:
-        data={
-            "present":0
-        }
-        return JsonResponse(data, safe=False)
 
 @csrf_exempt
 def register(request):
@@ -77,7 +71,7 @@ def login_view(request):
                 "email": user.email,
                 "first_name": user.first_name,
                 "last_name": user.last_name,
-                "watchlist": list(user.watchlist.all()),
+                "watchlist": [l.serialize() for l in user.watchlist.all()],
                 "Send": 1
             }
             return JsonResponse(data);
@@ -138,6 +132,18 @@ def product_info(request,product_id):
         in_watchlist=False
     return l, comments, in_watchlist, amount, no_of_bids
 
+
+def current_user(request):
+    user=request.user
+    data={
+            "username":user.username,
+            "email": user.email,
+            "first_name": user.first_name,
+            "last_name": user.last_name,
+            "watchlist": [l.serialize() for l in user.watchlist.all()],
+            "Send": 1
+            }
+    return JsonResponse(data)
 
 def product_inside_view(request, product_id):
     l, comments, in_watchlist, amount, no_of_bids=product_info(request,product_id)
