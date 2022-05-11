@@ -10,13 +10,14 @@ function App() {
   "List":[]
 })
 
-const [user,setUser]=useState({
+const user={
   "username":"",
   "email": "",
   "first_name": "",
   "last_name": "",
-  "watchlist": []
-})
+  "watchlist": [],
+  "sets": false
+}
     useEffect(()=>{
     axios({
         method: "get",
@@ -33,15 +34,15 @@ const [user,setUser]=useState({
   return (
     <div>
       <Routes>
-        <Route path="/home" element={<Layout Login={true} user={user}/>}/>
-        <Route path="/" element={<Layout iscreated={false} Login={false} isLoggin={true} active={false} List={List} welcome={true}/>}/>
-        <Route path="/active" element={<Layout iscreated={false} Login={false} isLoggin={true} active={true} List={List}/>}/>
-        <Route path="/login" element={<Layout iscreated={false} Login={false} isLoggin={true}/>}/>
-        <Route path="/register" element={<Layout iscreated={false} Login={false} isLoggin={false}/>}/>
-        <Route path="/login1" element={<Layout iscreated={true} Login={false} isLoggin={true}/>}/>
+        <Route path="/home" element={<Layout  user={user} iscreated={false} active={false} List={List} welcome={false}/>}/>
+        <Route path="/" element={<Layout iscreated={false} user={user} isLoggin={true} active={false} List={List} welcome={true}/>}/>
+        <Route path="/active" element={<Layout iscreated={false} user={user}  isLoggin={true} active={true} List={List}/>}/>
+        <Route path="/login" element={<Layout iscreated={false}  user={user} isLoggin={true}/>}/>
+        <Route path="/register" element={<Layout iscreated={false} user={user}  isLoggin={false}/>}/>
+        <Route path="/login1" element={<Layout iscreated={true} user={user}  isLoggin={true}/>}/>
       </Routes>
     </div>
   );
 }
 
-export default App;
+export default App

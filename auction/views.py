@@ -7,6 +7,7 @@ from django.db import IntegrityError
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from .forms import ListingForm 
+from django.contrib.auth.decorators import login_required
 import json
 # Create your views here.
 def index(request):
@@ -58,7 +59,7 @@ def register(request):
         return JsonResponse(data)
 
 
-@csrf_exempt
+
 def login_view(request):
     if request.method == "POST":
         username= request.POST['username']

@@ -7,9 +7,17 @@ import Active from '../Active/Active'
 import Index from "../index/index";
 import Welcome from '../Welcome/Welcome'
 const Layout = (props) => {
+    if (props.user.sets===true)
+    {
+        return(
+            <>
+            <Index user={props.user}/>
+            </>
+        )
+    }
     return (
         <>
-            <Index login={props.login}/>
+            <Index user={props.user}/>
             {props.welcome ? <Welcome /> :
             <>
                 {
