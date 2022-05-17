@@ -85,6 +85,7 @@ const Register = () => {
             }
         }).then(function (response) {
             console.log(response.data);
+            navigate('/login1')
         })
             .catch(function (error) {
                 console.log(error);
@@ -126,7 +127,7 @@ const Register = () => {
                     </div>: "" }
                 </Form.Group>
 
-                <Button variant="primary col-12" disabled={(password!=confirmPassword)?true:false} type="submit" >Register</Button>
+                <Button variant="primary col-12" disabled={(password!=confirmPassword)} onClick={Register}>Register</Button>
             </Form>
             <br />
             <Button variant="primary col-12" onClick={Already}>Already Account Login</Button>

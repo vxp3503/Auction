@@ -25,12 +25,13 @@ SECRET_KEY = 'django-insecure-mz%94ns^dhc$utj&)t!^j%=82p66$!64jwlkghl%%^0am9k_jv
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
-
+CORS_ALLOW_ALL_ORIGINS = True
 # Application definition
 
 INSTALLED_APPS = [
+    'corsheaders',
     'auction',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -39,7 +40,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'corsheaders'
 ]
 
 MIDDLEWARE = [
@@ -115,14 +115,13 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
+CORS_EXPOSE_HEADERS = ["X-CSRFTOKEN"]
 
-CORS_ORIGIN_WHITELIST = [
-     'http://localhost:3000'
-]
-
-CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_HEADERS = ['http://localhost:3000']
+CORS_ALLOWED_ORIGINS = ['http://localhost:3000']
 CSRF_TRUSTED_ORIGINS = ['http://localhost:3000']
-
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_ALL_ORIGINS = True # If this is used then `CORS_ALLOWED_ORIGINS` will not have any effect
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 

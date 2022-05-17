@@ -8,7 +8,9 @@ from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from .forms import ListingForm 
 from django.contrib.auth.decorators import login_required
-import json
+from rest_framework.authtoken.models import Token
+from django.middleware.csrf import get_token
+# from django.contrib.sessions.middleware import
 # Create your views here.
 def index(request):
         l=Listing.objects.all()
@@ -22,7 +24,7 @@ def index(request):
         List= list(zip([listing.serialize() for listing in l],amount))
         data={
             "present": 1,
-            "List":List
+            "List":List,
         }
         return JsonResponse(data)
 
@@ -51,7 +53,7 @@ def register(request):
                 "last_name": last_name,
                 "Send": 1
             }
-        return JsonResponse(data);
+        return  JsonResponse(data);
     else:
         data={
             "error":"occur"
@@ -59,7 +61,7 @@ def register(request):
         return JsonResponse(data)
 
 
-
+@csrf_exempt
 def login_view(request):
     if request.method == "POST":
         username= request.POST['username']
@@ -96,7 +98,7 @@ def logout_view(request):
     }
     return JsonResponse(data)
 
-
+@csrf_exempt
 def createlist(request):
     if request.method=="POST":
         title=request.POST['title']
@@ -107,7 +109,7 @@ def createlist(request):
         listing= Listing(Owner=request.user, title=title, description=description, startbid=startbid, image=image, category=category)
         listing.save()
         data={
-            "message":"user created successfully"
+            "message":"Item created successfully"
         }
         return JsonResponse(data);
 
@@ -136,12 +138,25 @@ def product_info(request,product_id):
 
 def current_user(request):
     user=request.user
+    if user.username is "":
+        return JsonResponse({
+            "Send":0
+        })
+    l=user.watchlist.all()
+    amount=[]
+    for item in l:
+            if(Bid.objects.filter(listing=item).exists()):
+                currentbid=Bid.objects.filter(listing=item).order_by('-date').first()
+                amount.append(currentbid.amount)
+            else:
+                amount.append(item.startbid)
+    List= list(zip([listing.serialize() for listing in l],amount))
     data={
             "username":user.username,
             "email": user.email,
             "first_name": user.first_name,
             "last_name": user.last_name,
-            "watchlist": [l.serialize() for l in user.watchlist.all()],
+            "watchlist": List,
             "Send": 1
             }
     return JsonResponse(data)
