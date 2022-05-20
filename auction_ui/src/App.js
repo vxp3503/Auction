@@ -3,13 +3,11 @@ import Index from "./Components/index";
 import axios from "axios";
 import { useContext, useState } from "react";
 import { useEffect } from "react";
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, useParams } from 'react-router-dom'
 import AuctionState from "./context/Auction/AuctionState";
 import AuctionContext from "./context/Auction/AuctionContext";
 
 function App() {
-
-
 
 
   const user1=useContext(AuctionContext)
@@ -19,7 +17,7 @@ function App() {
     user1.active()
   }, []);
 
-
+  
   return (
     <div>
 
@@ -28,6 +26,7 @@ function App() {
         <Route path="/" element={<Layout iscreated={false}  isLoggin={true} active={false}  welcome={true} />} />
         <Route path="/create" element={<Layout create={true}/>}/>
         <Route path="/watchlist" element={<Layout watchlist={true}/>}/>
+        <Route path="/:idea" element={<Layout product_view={true}/>}/>
         <Route path="/active" element={<Layout iscreated={false}  isLoggin={true} active={true} />} />
         <Route path="/login" element={<Layout iscreated={false} isLoggin={true} />} />
         <Route path="/register" element={<Layout iscreated={false}  isLoggin={false} />} />

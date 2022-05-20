@@ -172,7 +172,7 @@ def product_inside_view(request, product_id):
     }
     return JsonResponse(data)
 
-
+@csrf_exempt
 def add_comment(request, product_id):
     l, comments, in_watchlist, amount, no_of_bids=product_info(request,product_id)
     content=request.POST['content']
@@ -184,6 +184,7 @@ def add_comment(request, product_id):
     return JsonResponse(data)
 
 
+@csrf_exempt
 def add_bid(request, product_id):
     l, comments, in_watchlist, amount, no_of_bids=product_info(request,product_id)
     bid_price=request.POST['bid_price']

@@ -1,7 +1,18 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 import "./Product.css"
+import AuctionContext from '../../context/Auction/AuctionContext'
+import { useContext } from 'react'
+
 
 const Product = (props) => {
+
+    const user1=useContext(AuctionContext)
+    const navigate=useNavigate()
+    const ProductInsideHandler=(id)=>{
+      console.log(id)
+      navigate('/'+id)
+    }
     let List=props.List.List
     if(props.List.present==0)
     {
@@ -16,14 +27,13 @@ const Product = (props) => {
         <div className="container">
         <div className="main">
           {
-            List.map((value) => {
+            List.map((list) => {
               return (
-                  <div key={value[0].id}className="card">
-                    <img src={value[0].image} alt="..." />
+                  <div key={list[0].id}className="card1">
+                    <img className='product_img' src={list[0].image} alt="..." />
                     <div className='card-content'>
-                      <h5>{value[0].title}</h5>
-                      <p>{value[0].description}</p>
-                      <a href="#" className="btn btn-primary">Main</a>
+                      <h5>{list[0].title}</h5>
+                      <a value={list[0].id} onClick={()=>{ProductInsideHandler(list[0].id)}} className="btn btn-primary">Main</a>
                     </div>
                   </div>
               );

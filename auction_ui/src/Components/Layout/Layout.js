@@ -9,28 +9,34 @@ import Welcome from '../Welcome/Welcome'
 import AuctionContext from '../../context/Auction/AuctionContext'
 import Create from '../Create/Create'
 import Watchlist from '../Watchlist/Watchlist'
-
+import Product_view from '../Product_view/Product_view'
+import { useParams } from 'react-router-dom'
 const Layout = (props) => {
     const user1 = useContext(AuctionContext)
+    const { idea }=useParams()
     return (
         <>
             <Index user={user1.user} />
-            {props.watchlist ? <Watchlist /> :
+            {props.product_view ? <Product_view id={idea} /> :
                 <>
-                    {props.create ? <Create /> :
+                    {props.watchlist ? <Watchlist /> :
                         <>
-                            {props.welcome ? <Welcome /> :
+                            {props.create ? <Create /> :
                                 <>
-                                    {
-                                        props.active ? <Active List={user1.List} /> :
-                                            <Container className="mt-5">
-                                                <Row>
-                                                    {props.isLoggin ? <Login iscreated={props.iscreated} /> : <Register />}
-                                                    <Col lg={8} md={6} sm={12}>
-                                                        <img className='w-100' src={Logi} alt="" />
-                                                    </Col>
-                                                </Row>
-                                            </Container>
+                                    {props.welcome ? <Welcome /> :
+                                        <>
+                                            {
+                                                props.active ? <Active List={user1.List} /> :
+                                                    <Container className="mt-5">
+                                                        <Row>
+                                                            {props.isLoggin ? <Login iscreated={props.iscreated} /> : <Register />}
+                                                            <Col lg={8} md={6} sm={12}>
+                                                                <img className='w-100' src={Logi} alt="" />
+                                                            </Col>
+                                                        </Row>
+                                                    </Container>
+                                            }
+                                        </>
                                     }
                                 </>
                             }

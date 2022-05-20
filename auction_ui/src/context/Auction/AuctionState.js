@@ -17,9 +17,11 @@ const AuctionState = (props) => {
 
 
 
-
     const [List, setList] = useState(l1)
     const [user, setUser] = useState(state);
+    const [item, setItem] = useState({
+        "present":0
+    })
 
     const current = async () => {
         try {
@@ -65,10 +67,26 @@ const AuctionState = (props) => {
         }
     }
 
-
+    const Product_view=async(id)=>{
+        try{
+            const response=await axios({
+                method:"get",
+                url: "http://localhost:8000/inside/"+id,
+                withCredentials: true
+            })
+            console.log(response.data)
+            setItem({
+                ...item,
+                "data":response.data,
+                "present":1
+            })
+        } catch(error){
+            console.log(error)
+        }
+    }
 
     return (
-        <AuctionContext.Provider value={{ user, current, active, List }}>
+        <AuctionContext.Provider value={{ user, current, active, List, Product_view, item }}>
             {props.children}
         </AuctionContext.Provider>
     )
