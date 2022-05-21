@@ -3,12 +3,13 @@ import React, { useEffect } from 'react'
 import { useState } from 'react'
 import AuctionContext from '../../context/Auction/AuctionContext'
 import { useContext } from 'react'
-import { Form, Button } from 'react-bootstrap'
+import { Form, Button,Alert } from 'react-bootstrap'
 import './Product_view.css'
 import { useNavigate } from 'react-router-dom'
 
+
 const Product_view = (props) => {
-  const navigate=useNavigate()
+  const navigate = useNavigate()
   const id = props.id
   const user1 = useContext(AuctionContext)
   useEffect(() => {
@@ -18,10 +19,10 @@ const Product_view = (props) => {
   console.log("2");
   const item1 = user1.item
   const item = item1.data
-  const [comment,setComment]=useState()
-  const [bid,setBid]=useState(item1.amount)
+  const [comment, setComment] = useState()
+  const [bid, setBid] = useState(item1.amount)
   console.log(item1.amount)
-  const [current_value,setCurrent]=useState();
+  const [current_value, setCurrent] = useState();
   const CommentChangeHandler = (event) => {
     setComment(event.target.value)
   }
@@ -33,64 +34,105 @@ const Product_view = (props) => {
   }
 
 
-  const Bidsubmit=()=>{
+  const Bidsubmit = () => {
     var bodyFormData = new FormData();
-    if(bid=="")
-    {
-    setBid("")
+    if (bid == "") {
+      setBid("")
       return;
     }
-    bodyFormData.append('bid_price',bid)
+    bodyFormData.append('bid_price', bid)
     axios({
       method: "post",
-      url: "http://localhost:8000/add_bid/"+id,
-      withCredentials:"true",
+      url: "http://localhost:8000/add_bid/" + id,
+      withCredentials: "true",
       data: bodyFormData,
       headers: {
-          'Content-Type': 'multipart/form-data'
+        'Content-Type': 'multipart/form-data'
       }
-  }).then(function (response) {
+    }).then(function (response) {
       console.log(response.data);
       user1.Product_view(id)
       setBid("")
-      navigate('/'+id)
-  })
+      navigate('/' + id)
+    })
       .catch(function (error) {
-          console.log(error);
+        console.log(error);
       });
   }
 
+
+  const AddWatchlistHandler = () => {
+    axios({
+      method: "get",
+      url: "http://localhost:8000/update_watchlist/" + id,
+      withCredentials: "true",
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    }).then(function (response) {
+      console.log(response.data);
+      user1.Product_view(id)
+      user1.current()
+      navigate('/' + id)
+    })
+      .catch(function (error) {
+        console.log(error);
+      });
+    console.log("add to watchlist clicked")
+  }
+
+
+
+
+  const CloseAuctionHandler = () => {
+    axios({
+      method: "get",
+      url: "http://localhost:8000/close_auction/" + id,
+      withCredentials: "true",
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    }).then(function (response) {
+      console.log(response.data);
+      user1.Product_view(id)
+      user1.active()
+      user1.current()
+      navigate('/' + id)
+    })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
 
 
 
 
   const submit = () => {
     var bodyFormData = new FormData();
-    if(comment=="")
-    {
-    setComment("")
+    if (comment == "") {
+      setComment("")
       return;
     }
-    bodyFormData.append('content',comment)
+    bodyFormData.append('content', comment)
     axios({
       method: "post",
-      url: "http://localhost:8000/add_comment/"+id,
-      withCredentials:"true",
+      url: "http://localhost:8000/add_comment/" + id,
+      withCredentials: "true",
       data: bodyFormData,
       headers: {
-          'Content-Type': 'multipart/form-data'
+        'Content-Type': 'multipart/form-data'
       }
-  }).then(function (response) {
+    }).then(function (response) {
       console.log(response.data);
       user1.Product_view(id)
       setComment("")
-      navigate('/'+id)
-  })
+      navigate('/' + id)
+    })
       .catch(function (error) {
-          console.log(error);
+        console.log(error);
       });
   }
-  let i=0;
+  let i = 0;
   if (item1.present == 0) {
     return (
       <h1>Server Error</h1>
@@ -111,25 +153,44 @@ const Product_view = (props) => {
             <p className="msg1">No of bids: {item.no_of_bids}</p>
             <div>
               {(user1.user.sets == false) ? <p className="msg1">Login to Place Bid</p> :
-                <Form>
-                  <Form.Group className='mb-3'>
-                    <Form.Label className='msg'>Enter Amount</Form.Label>
-                    <Form.Control type="number"  placeholder='Enter bid' value={bid?? ""} onChange={BidChangeHandler} rows={3} />
-                    { current_value<item.amount ?
-                    <div className='invalid-feedback d-block'>
-                        Enter amount large than current amount
-                    </div>: "" }
-                  </Form.Group>
-                  <Form.Group className='product_form'>
-                  <Button variant="primary" disabled={current_value<item.amount} onClick={Bidsubmit}>Place Bid</Button>
-                  <Button variant="primary" onClick={submit}>Add to watchlist</Button>
-                  </Form.Group>
-                  <Form.Group>
-                    <div className='close'>
-                    <Button variant='danger'>Close</Button>
-                    </div>
-                  </Form.Group>
-                </Form>
+                <>
+                  {(item.listing.closed) ? <>
+                    <Alert key="success" variant="success">
+                    {(item.listing.winner==user1.user.user.username)?"You are":<>{item.listing.winner} is</>}  a winner
+                    </Alert>
+                  </> :
+                    <>
+                      <Form>
+                        <Form.Group className='mb-3'>
+                          <Form.Label className='msg'>Enter Amount</Form.Label>
+                          <Form.Control type="number" placeholder='Enter bid' value={bid ?? ""} onChange={BidChangeHandler} rows={3} />
+                          {current_value < item.amount ?
+                            <div className='invalid-feedback d-block'>
+                              Enter amount large than current amount
+                            </div> : ""}
+                        </Form.Group>
+                        <Form.Group className='product_form'>
+                          <Button variant="primary" disabled={current_value < item.amount} onClick={Bidsubmit}>Place Bid</Button>
+                          {item.in_watchlist ? <Button variant="secondary" onClick={AddWatchlistHandler}>Remove from watchlist</Button> :
+                            <Button variant="primary" onClick={AddWatchlistHandler}>Add to watchlist</Button>
+                          }
+                        </Form.Group>
+                        <Form.Group>
+                          <>
+                            {
+                              user1.user.user.username === item.listing.Owner ?
+                                <>
+                                  <div className='close'>
+                                    <Button variant='danger' onClick={CloseAuctionHandler}>Close</Button>
+                                  </div>
+                                </>
+                                : ""}
+                          </>
+                        </Form.Group>
+                      </Form>
+                    </>
+                  }
+                </>
               }
             </div>
           </div>
@@ -142,7 +203,7 @@ const Product_view = (props) => {
                 <Form>
                   <Form.Group className='mb-3'>
                     <Form.Label>Add Comment</Form.Label>
-                    <Form.Control as="textarea" value={comment}  onChange={CommentChangeHandler} rows={3} />
+                    <Form.Control as="textarea" value={comment} onChange={CommentChangeHandler} rows={3} />
                   </Form.Group>
                   <Button variant="primary" onClick={submit}>Post</Button>
                 </Form>

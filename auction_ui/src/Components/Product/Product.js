@@ -33,7 +33,8 @@ const Product = (props) => {
                     <img className='product_img' src={list[0].image} alt="..." />
                     <div className='card-content'>
                       <h5>{list[0].title}</h5>
-                      <a value={list[0].id} onClick={()=>{ProductInsideHandler(list[0].id)}} className="btn btn-primary">Main</a>
+                      <a value={list[0].id} onClick={()=>{ProductInsideHandler(list[0].id)}} className="btn btn-primary">View</a>
+                      {(list[0].closed)?<div className='product_close'>Closed</div>:""}
                     </div>
                   </div>
               );

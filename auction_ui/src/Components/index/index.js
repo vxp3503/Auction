@@ -65,6 +65,8 @@ const Index = (props) => {
     </Nav>
     <Nav>
     <i className="fa-solid fa-user"></i>
+    </Nav>
+    <Nav>
     <span className='username'>{user1.user.user.username}</span>
     </Nav>
     </Container>

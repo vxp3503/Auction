@@ -92,7 +92,7 @@ const Create = () => {
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                     <Form.Label>Starting Bid</Form.Label>
-                    <Form.Control onChange={StartBidChangeHnadler}  type="number" placeholder="Bid Amount" required />
+                    <Form.Control onChange={StartBidChangeHnadler}  type="number" placeholder="Bid Amount" required/>
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                     <Form.Label>image url</Form.Label>
@@ -103,21 +103,21 @@ const Create = () => {
                 <Form.Select onChange={CategoryChangeHandler}>
                     <option>...........</option>
                     <option value="BOOKS">Books</option>
-                    <option value="Music">Music</option>
-                    <option value="Movies">Movies</option>
-                    <option value="Games">Games</option>
-                    <option value="Computers">Computers</option>
-                    <option value="Electronics">Electronics</option>
-                    <option value="Kitchen">Kitchen</option>
-                    <option value="Home">Home</option>
-                    <option value="Health">Health</option>
-                    <option value="Pets">Pets</option>
-                    <option value="Toys">Toys</option>
-                    <option value="Fashion">Fashion</option>
-                    <option value="Shoes">Shoes</option>
-                    <option value="Sports">Sports</option>
-                    <option value="Baby">Baby</option>
-                    <option value="Travel">Travel</option>
+                    <option value="MUSIC">Music</option>
+                    <option value="MOVIES">Movies</option>
+                    <option value="GAMES">Games</option>
+                    <option value="COMPUTERS">Computers</option>
+                    <option value="ELECTRONICS">Electronics</option>
+                    <option value="KITCHEN">Kitchen</option>
+                    <option value="HOME">Home</option>
+                    <option value="HEALTH">Health</option>
+                    <option value="PETS">Pets</option>
+                    <option value="TOYS">Toys</option>
+                    <option value="FASHION">Fashion</option>
+                    <option value="SHOES">Shoes</option>
+                    <option value="SPORTS">Sports</option>
+                    <option value="BABY">Baby</option>
+                    <option value="TRAVEL">Travel</option>
                 </Form.Select>
                 </Form.Group>
                 <Button variant="primary"  onClick={Submit}>Submit</Button>

@@ -2,16 +2,13 @@
     padding: 4% 12%;
     margin-top: 32px;
     box-sizing: border-box;
-
     width: 100%;
     display: flex;
     align-items: center;
 }
-
 .product_preview{
     width: 50%;
 }
-
 .product_preview> img{
     width: 100%;
 }
