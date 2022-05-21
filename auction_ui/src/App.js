@@ -23,7 +23,7 @@ function App() {
 
       <Routes> 
         <Route path="/home" element={<Layout  iscreated={false} active={false}  welcome={false} />} />
-        <Route path="/" element={<Layout iscreated={false}  isLoggin={true} active={false}  welcome={true} />} />
+        <Route path="/" element={<Layout iscreated={false}  isLoggin={true} active={true} />} />
         <Route path="/create" element={<Layout create={true}/>}/>
         <Route path="/watchlist" element={<Layout watchlist={true}/>}/>
         <Route path="/:idea" element={<Layout product_view={true}/>}/>
